@@ -10,6 +10,8 @@
 namespace Piwik\Updates;
 
 use Piwik\Config;
+use Piwik\Db;
+use Piwik\DbHelper;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
@@ -44,6 +46,17 @@ class Updates_4_0_0_b1 extends PiwikUpdates
         $migrations[] = $this->migration->plugin->deactivate('CustomPiwikJs');
         $migrations[] = $this->migration->plugin->uninstall('CustomPiwikJs');
 
+        if ('utf8mb4' === DbHelper::getDefaultCharset()) {
+            $allTables = DbHelper::getTablesInstalled();
+            $database = Config::getInstance()->database['dbname'];
+
+            $migrations[] = $this->migration->db->sql("ALTER DATABASE $database CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;;");
+
+            foreach ($allTables as $table) {
+                $migrations[] = $this->migration->db->sql("ALTER TABLE $table CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
+            }
+        }
+
         if ($customTrackerPluginActive) {
             $migrations[] = $this->migration->plugin->activate('CustomJsTracker');
         }
@@ -54,5 +67,14 @@ class Updates_4_0_0_b1 extends PiwikUpdates
     public function doUpdate(Updater $updater)
     {
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
+
+        // switch default charset to utf8mb4 in config if available
+        $config = Config::getInstance();
+        if ('utf8mb4' === DbHelper::getDefaultCharset()) {
+            $config->database['charset'] = 'utf8mb4';
+        } else {
+            $config->database['charset'] = 'utf8';
+        }
+        $config->forceSave();
     }
 }
