@@ -36,7 +36,7 @@ class ArchivedMetricTest extends IntegrationTestCase
      */
     private $metric;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -48,7 +48,7 @@ class ArchivedMetricTest extends IntegrationTestCase
         $this->metric = $this->makeMetric('%s');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Translate::unloadEnglishTranslation();
         parent::tearDown();

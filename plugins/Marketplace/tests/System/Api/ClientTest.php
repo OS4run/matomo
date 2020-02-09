@@ -40,7 +40,7 @@ class ClientTest extends SystemTestCase
      */
     private $environment;
 
-    public function setUp()
+    public function setUp(): void
     {
         $releaseChannels = new Plugin\ReleaseChannels(Plugin\Manager::getInstance());
         $this->environment = new Environment($releaseChannels);
@@ -106,12 +106,11 @@ class ClientTest extends SystemTestCase
         $this->assertNotEmpty($lastVersion['download']);
     }
 
-    /**
-     * @expectedException \Piwik\Plugins\Marketplace\Api\Exception
-     * @expectedExceptionMessage Requested plugin does not exist.
-     */
     public function test_getPluginInfo_shouldThrowException_IfPluginDoesNotExistOnMarketplace()
     {
+        $this->expectException(\Piwik\Plugins\Marketplace\Api\Exception::class);
+        $this->expectExceptionMessage('Requested plugin does not exist.');
+
         $this->client->getPluginInfo('NotExistingPlugIn');
     }
 
@@ -170,7 +169,7 @@ class ClientTest extends SystemTestCase
         $this->assertLessThan(30, count($plugins));
 
         foreach ($plugins as $plugin) {
-            $this->assertContains($keywords, $plugin['keywords']);
+            self::assertStringContainsString($keywords, $plugin['keywords']);
         }
     }
 
@@ -228,7 +227,7 @@ class ClientTest extends SystemTestCase
         $this->assertTrue($cache->contains($id));
         $cachedPlugins = $cache->fetch($id);
 
-        $this->assertInternalType('array', $cachedPlugins);
+        self::assertIsArray($cachedPlugins);
         $this->assertNotEmpty($cachedPlugins);
         $this->assertGreaterThan(30, $cachedPlugins);
     }
@@ -275,7 +274,7 @@ class ClientTest extends SystemTestCase
         $this->assertSame(array('plugins', 'release_channel', 'prefer_stable', 'piwik', 'php', 'mysql', 'num_users', 'num_websites'), array_keys($service->params));
 
         $plugins = $service->params['plugins'];
-        $this->assertInternalType('string', $plugins);
+        self::assertIsString($plugins);
         $this->assertJson($plugins);
         $plugins = json_decode($plugins, true);
 

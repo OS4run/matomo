@@ -105,10 +105,10 @@ class PiwikTest extends IntegrationTestCase
 
     /**
      * @dataProvider getInvalidLoginStringData
-     * @expectedException \Exception
      */
     public function testCheckInvalidLoginString($toTest)
     {
+        $this->expectException(\Exception::class);
         Piwik::checkValidLoginString($toTest);
     }
 
@@ -244,7 +244,7 @@ class PiwikTest extends IntegrationTestCase
     private function createPiwikAuthMockInstance()
     {
         return $this->getMockBuilder('Piwik\\Auth')
-            ->setMethods(array('authenticate', 'getName', 'getTokenAuthSecret', 'getLogin', 'setTokenAuth', 'setLogin',
+            ->onlyMethods(array('authenticate', 'getName', 'getTokenAuthSecret', 'getLogin', 'setTokenAuth', 'setLogin',
                 'setPassword', 'setPasswordHash'))
             ->getMock();
     }

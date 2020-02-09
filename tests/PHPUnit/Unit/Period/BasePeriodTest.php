@@ -12,14 +12,14 @@ use Piwik\Translate;
 
 abstract class BasePeriodTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         Translate::loadAllTranslations();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 

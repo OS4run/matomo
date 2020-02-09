@@ -18,12 +18,12 @@ use Piwik\Translate;
  */
 class CacheIdTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         Translate::loadAllTranslations();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Translate::reset();
     }

@@ -31,7 +31,7 @@ class ConvertRegionCodesToIsoTest extends IntegrationTestCase
 
     protected static $idSite;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -82,7 +82,7 @@ class ConvertRegionCodesToIsoTest extends IntegrationTestCase
         Fixture::checkResponse($t->doTrackPageView('It\'s pitch black...'));
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         Option::delete(ConvertRegionCodesToIso::OPTION_NAME);
@@ -116,7 +116,7 @@ class ConvertRegionCodesToIsoTest extends IntegrationTestCase
 
         $result = $this->executeCommand();
 
-        $this->assertContains('All region codes converted', $result);
+        self::assertStringContainsString('All region codes converted', $result);
 
         $queryParams = array(
             'idSite'  => self::$idSite,
