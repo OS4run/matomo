@@ -37,6 +37,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   * The event `CustomPiwikJs.shouldAddTrackerFile` has been renamed to `CustomJsTracker.shouldAddTrackerFile`
   * Public API class `Piwik\Plugins\CustomPiwikJs\TrackerUpdater` has been renamed to `Piwik\Plugins\CustomJsTracker\TrackerUpdater`
   * API method `CustomPiwikJs.doesIncludePluginTrackersAutomatically` has been renamed to `CustomJsTracker.doesIncludePluginTrackersAutomatically`
+* The API response format `php` has been removed.
 
 ## Matomo 3.13.1
 

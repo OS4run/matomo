@@ -74,10 +74,6 @@ class ApiGetReportMetadataTest extends SystemTestCase
             // Test w/ showRawMetrics=true
             array('Actions.getPageTitles', array('idSite'     => $idSite, 'date' => $dateTime,
                                                  'testSuffix' => '_pageTitleZeroString')),
-
-            // test php renderer w/ array data
-            array('API.getDefaultMetricTranslations', array('idSite' => $idSite, 'date' => $dateTime,
-                                                            'format' => 'php', 'testSuffix' => '_phpRenderer')),
         );
     }
 
